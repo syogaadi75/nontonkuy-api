@@ -4,6 +4,7 @@ const {
     check,
     validationResult
 } = require('express-validator');
+const Users = require('../models/Users.js');
 const router = express.Router();
 
 // Get all room
