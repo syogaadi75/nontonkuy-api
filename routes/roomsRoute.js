@@ -5,10 +5,10 @@ const {
     validationResult
 } = require('express-validator');
 const Users = require('../models/Users.js');
-const router = express.Router();
+const roomsRoute = express.Router();
 
 // Get all room
-router.get('/', (req, res) => {
+roomsRoute.get('/', (req, res) => {
     Rooms.find()
         .populate('master', 'name email')
         .populate('users', 'name email')
@@ -23,7 +23,7 @@ router.get('/', (req, res) => {
 });
 
 // Get all public room
-router.get('/public', (req, res) => {
+roomsRoute.get('/public', (req, res) => {
     Rooms.find({
             isPrivate: false
         })
@@ -40,7 +40,7 @@ router.get('/public', (req, res) => {
 });
 
 // Get room by id
-router.get('/:id', [
+roomsRoute.get('/:id', [
     check('id').not().isEmpty().withMessage('ID is required')
 ], (req, res) => {
     const errors = validationResult(req);
@@ -69,7 +69,7 @@ router.get('/:id', [
 });
 
 // Room by id & id user
-router.get('/:roomId/users/:userId', [
+roomsRoute.get('/:roomId/users/:userId', [
     check('roomId').not().isEmpty().withMessage('Id room dibutuhkan'),
     check('userId').not().isEmpty().withMessage('Id user dibutuhkan'),
 ], async (req, res) => {
@@ -100,7 +100,7 @@ router.get('/:roomId/users/:userId', [
 });
 
 // Membuat room baru
-router.post('/create', [
+roomsRoute.post('/create', [
     check('name').not().isEmpty().withMessage('Name is required'),
     check('master').not().isEmpty().withMessage('Master is required'),
     check('videoLinks').not().isEmpty().withMessage('Video links are required')
@@ -130,7 +130,7 @@ router.post('/create', [
 });
 
 // Join room
-router.patch('/:id/join', [
+roomsRoute.patch('/:id/join', [
     check('id').not().isEmpty().withMessage('ID is required'),
     check('userId').not().isEmpty().withMessage('User ID is required')
 ], (req, res) => {
@@ -175,7 +175,7 @@ router.patch('/:id/join', [
 
 
 // Exit room
-router.patch('/:id/exit', [
+roomsRoute.patch('/:id/exit', [
     check('id').not().isEmpty().withMessage('ID is required'),
     check('userId').not().isEmpty().withMessage('User ID is required')
 ], (req, res) => {
@@ -220,4 +220,4 @@ router.patch('/:id/exit', [
 });
 
 
-module.exports = router;
+module.exports = roomsRoute;
