@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import cors from 'cors';
 import 'dotenv/config';
-import https from "https";
+import http from "http";
 import {
     Server
 } from "socket.io";
@@ -14,8 +14,8 @@ const app = new express();
 app.use(cors());
 app.use(bodyParser.json());
 
-const httpsServer = https.createServer(app);
-const io = new Server(httpsServer, {
+const httpServer = http.createServer(app);
+const io = new Server(httpServer, {
     allowEIO3: true,
     cors: {
         origin: true,
@@ -42,6 +42,6 @@ mongoose.connect(process.env.DB_CONNECTION, () => {
     console.log('Koneksi Berhasil');
 });
 
-httpsServer.listen(3000, () => {
-    console.log('Express server listening on port https://localhost:3000')
+httpServer.listen(3000, () => {
+    console.log('Express server listening on port http://localhost:3000')
 });
