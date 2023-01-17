@@ -1,5 +1,5 @@
 const express = require('express');
-const Rooms = require('../models/rooms.js');
+const Rooms = require('../models/Rooms.js');
 const {
     check,
     validationResult
