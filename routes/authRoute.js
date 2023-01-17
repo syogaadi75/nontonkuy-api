@@ -66,10 +66,10 @@ authRoute.post('/login', [
     });
   }
 
-  const user = await Users.findOne({
-    email: req.body.email
-  });
   try {
+    const user = await Users.findOne({
+      email: req.body.email
+    });
     if (!user) {
       res.status(404).send('Pengguna tidak ditemukan');
     } else {
