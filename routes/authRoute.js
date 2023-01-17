@@ -22,7 +22,7 @@ authRoute.post('/register', [
   check('password').isLength({
     min: 8
   }).matches(/\d/).matches(/[a-zA-Z]/).withMessage('Password tidak valid')
-], (req, res) => {
+], async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).json({
@@ -30,19 +30,19 @@ authRoute.post('/register', [
     });
   }
 
-  const newUser = new Users({
+  const newUser = await new Users({
     name: req.body.name,
     email: req.body.email,
     password: req.body.password
   });
 
-  newUser.save((err) => {
-    if (err) {
-      res.status(500).send(err);
-    } else {
-      res.send('User berhasil disimpan');
-    }
-  });
+  try {
+    const savedUser = await newUser.save();
+    res.send('User berhasil disimpan');
+
+  } catch (error) {
+    res.status(500).send(err);
+  }
 });
 
 authRoute.post('/login', [
