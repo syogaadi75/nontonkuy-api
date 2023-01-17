@@ -42,6 +42,6 @@ mongoose.connect(process.env.DB_CONNECTION, () => {
     console.log('Koneksi Berhasil');
 });
 
-httpsServer.listen(3000, () => {
+app.listen(3000, () => {
     console.log('Express server listening on port https://localhost:3000')
 });
