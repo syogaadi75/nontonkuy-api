@@ -8,7 +8,6 @@ const {
 } = require('express-validator');
 const authMiddleware = require('../lib/authMiddleware.js');
 const router = express.Router();
-require('dotenv/config');
 
 router.post('/register', [
   check('email').isEmail().withMessage('Email tidak valid').custom((value) => {
