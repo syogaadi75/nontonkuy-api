@@ -30,10 +30,12 @@ authRoute.post('/register', [
     });
   }
 
+  const hash = await argon2.hash(req.body.password);
+
   const newUser = await new Users({
     name: req.body.name,
     email: req.body.email,
-    password: req.body.password
+    password: hash
   });
 
   try {
@@ -73,10 +75,9 @@ authRoute.post('/login', [
     if (!user) {
       res.status(404).send('Pengguna tidak ditemukan');
     } else {
-      const isValid = await argon2.verify(user.password, req.body.password);
-      if (isValid) {
+      if (await argon2.verify(user.password, req.body.password)) {
         // Buat token JWT
-        const token = jwt.sign({
+        const token = await jwt.sign({
           id: user._id,
           name: user.name
         }, process.env.SECRET_KEY, {
