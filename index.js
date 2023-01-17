@@ -1,14 +1,14 @@
 // index.js
-import express from 'express';
-import mongoose from "mongoose";
-import bodyParser from "body-parser";
-import cors from 'cors';
-import 'dotenv/config';
-import http from "http";
-import {
+const express = require('express');
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const cors = require('cors');
+require('dotenv/config');
+const http = require("http");
+const {
     Server
-} from "socket.io";
-import socketIO from './lib/socket.js';
+} = require("socket.io");
+const socketIO = require('./lib/socket.js');
 
 const app = new express();
 app.use(cors());
@@ -26,8 +26,8 @@ const io = new Server(httpServer, {
 socketIO(io);
 
 // Import Routes
-import roomsRoute from './routes/roomsRoute.js';
-import authRoute from './routes/authRoute.js';
+const roomsRoute = require('./routes/roomsRoute.js');
+const authRoute = require('./routes/authRoute.js');
 
 // Routes
 app.use('/rooms', roomsRoute);

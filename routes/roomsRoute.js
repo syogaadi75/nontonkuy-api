@@ -1,10 +1,10 @@
-import express from 'express';
-import Rooms from '../models/rooms.js';
-import {
+const express = require('express');
+const Rooms = require('../models/rooms.js');
+const {
     check,
     validationResult
-} from 'express-validator';
-import Users from '../models/Users.js';
+} = require('express-validator');
+const Users = require('../models/Users.js');
 const router = express.Router();
 
 // Get all room
@@ -220,4 +220,4 @@ router.patch('/:id/exit', [
 });
 
 
-export default router
+module.exports = router;

@@ -1,12 +1,12 @@
-import express from 'express';
-import Users from '../models/Users.js';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import {
+const express = require('express');
+const Users = require('../models/Users.js');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const {
   check,
   validationResult
-} from 'express-validator';
-import authMiddleware from '../lib/authMiddleware.js';
+} = require('express-validator');
+const authMiddleware = require('../lib/authMiddleware.js');
 const router = express.Router();
 
 router.post('/register', [
@@ -100,4 +100,4 @@ router.get('/checkAuth', authMiddleware, (req, res) => {
   })
 })
 
-export default router;
+module.exports = router;

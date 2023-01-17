@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Aplikasi nonton bareng online ",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "start": "nodemon index.js"
   },
