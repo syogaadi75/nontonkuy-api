@@ -58,7 +58,7 @@ authRoute.post('/login', [
   check('password').isLength({
     min: 8
   }).matches(/\d/).matches(/[a-zA-Z]/).withMessage('Email atau password salah')
-], (req, res) => {
+], async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).json({
@@ -66,15 +66,15 @@ authRoute.post('/login', [
     });
   }
 
-  Users.findOne({
+  const user = await Users.findOne({
     email: req.body.email
-  }, (err, user) => {
-    if (err) {
-      res.status(500).send(err);
-    } else if (!user) {
+  });
+  try {
+    if (!user) {
       res.status(404).send('Pengguna tidak ditemukan');
     } else {
-      // if (bcrypt.compareSync(req.body.password, user.password)) {
+      // const isValid = await argon2.verify(user.password, req.body.password);
+      // if (isValid) {
       // Buat token JWT
       const token = jwt.sign({
         id: user._id,
@@ -86,11 +86,14 @@ authRoute.post('/login', [
         auth: true,
         token: token
       });
+
       // } else {
       //   res.status(401).send('Email atau password salah');
       // }
     }
-  });
+  } catch (error) {
+    res.status(500).send(error);
+  }
 });
 
 authRoute.get('/checkAuth', authMiddleware, (req, res) => {
