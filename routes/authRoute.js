@@ -1,8 +1,6 @@
 const express = require('express');
 const Users = require('../models/Users.js');
-const {
-  bcrypt
-} = require('bcrypt');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const {
   check,
@@ -10,6 +8,8 @@ const {
 } = require('express-validator');
 const authMiddleware = require('../lib/authMiddleware.js');
 const authRoute = express.Router();
+const saltRounds = 10;
+const salt = bcrypt.genSaltSync(saltRounds);
 
 authRoute.post('/register', [
   check('email').isEmail().withMessage('Email tidak valid').custom((value) => {
@@ -35,7 +35,7 @@ authRoute.post('/register', [
   const newUser = new Users({
     name: req.body.name,
     email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 10)
+    password: bcrypt.hashSync(req.body.password, salt)
   });
 
   newUser.save((err) => {
