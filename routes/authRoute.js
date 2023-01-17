@@ -8,8 +8,6 @@ const {
 } = require('express-validator');
 const authMiddleware = require('../lib/authMiddleware.js');
 const authRoute = express.Router();
-const saltRounds = 10;
-const salt = bcrypt.genSaltSync(saltRounds);
 
 authRoute.post('/register', [
   check('email').isEmail().withMessage('Email tidak valid').custom((value) => {
@@ -35,7 +33,7 @@ authRoute.post('/register', [
   const newUser = new Users({
     name: req.body.name,
     email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, salt)
+    password: bcrypt.hashSync(req.body.password, 10)
   });
 
   newUser.save((err) => {
@@ -95,11 +93,11 @@ authRoute.post('/login', [
   });
 });
 
-authRoute.get('/checkAuth', authMiddleware, (req, res) => {
-  res.send({
-    auth: true,
-    user: req.user
-  })
-})
+// authRoute.get('/checkAuth', authMiddleware, (req, res) => {
+//   res.send({
+//     auth: true,
+//     user: req.user
+//   })
+// })
 
 module.exports = authRoute;
