@@ -1,7 +1,6 @@
 const express = require('express');
 const Users = require('../models/Users.js');
 // const bcrypt = require('bcrypt');
-const argon2 = require('argon2');
 const jwt = require('jsonwebtoken');
 const {
   check,
@@ -31,20 +30,18 @@ authRoute.post('/register', [
     });
   }
 
-  argon2.hash(req.body.password).then(hash => {
-    const newUser = new Users({
-      name: req.body.name,
-      email: req.body.email,
-      password: hash
-    });
+  const newUser = new Users({
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password
+  });
 
-    newUser.save((err) => {
-      if (err) {
-        res.status(500).send(err);
-      } else {
-        res.send('User berhasil disimpan');
-      }
-    });
+  newUser.save((err) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.send('User berhasil disimpan');
+    }
   });
 });
 
