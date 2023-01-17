@@ -4,6 +4,6 @@
         { "src": "index.js", "use": "@vercel/node" }
     ],
     "routes": [
-        { "handle": "express", "src": "/routes/.*", "dest": "index.js" }
+        { "handle": "express", "src": "/.*", "dest": "index.js" }
     ]
 }
