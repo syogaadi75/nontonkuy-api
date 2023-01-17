@@ -1,6 +1,6 @@
 const express = require('express');
+const argon2 = require('argon2');
 const Users = require('../models/Users.js');
-// const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const {
   check,
@@ -73,23 +73,23 @@ authRoute.post('/login', [
     if (!user) {
       res.status(404).send('Pengguna tidak ditemukan');
     } else {
-      // const isValid = await argon2.verify(user.password, req.body.password);
-      // if (isValid) {
-      // Buat token JWT
-      const token = jwt.sign({
-        id: user._id,
-        name: user.name
-      }, process.env.SECRET_KEY, {
-        expiresIn: '1d'
-      });
-      res.send({
-        auth: true,
-        token: token
-      });
+      const isValid = await argon2.verify(user.password, req.body.password);
+      if (isValid) {
+        // Buat token JWT
+        const token = jwt.sign({
+          id: user._id,
+          name: user.name
+        }, process.env.SECRET_KEY, {
+          expiresIn: '1d'
+        });
+        res.send({
+          auth: true,
+          token: token
+        });
 
-      // } else {
-      //   res.status(401).send('Email atau password salah');
-      // }
+      } else {
+        res.status(401).send('Email atau password salah');
+      }
     }
   } catch (error) {
     res.status(500).send(error);
