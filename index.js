@@ -26,11 +26,11 @@ app.use(bodyParser.json());
 // socketIO(io);
 
 // Import Routes
-// const roomsRoute = require('./routes/roomsRoute.js');
+const roomsRoute = require('./routes/roomsRoute.js');
 const authRoute = require('./routes/authRoute.js');
 
 // Routes
-// app.use('/rooms', roomsRoute);
+app.use('/rooms', roomsRoute);
 app.use('/auth', authRoute);
 app.get('/', (req, res) => {
     res.send('Selamat Datang');
