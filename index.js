@@ -37,10 +37,10 @@ app.get('/', (req, res) => {
 });
 
 // Koneksi DB
-// mongoose.set('strictQuery', false);
-// mongoose.connect(process.env.DB_CONNECTION, () => {
-//     console.log('Koneksi Berhasil');
-// });
+mongoose.set('strictQuery', false);
+mongoose.connect(process.env.DB_CONNECTION, () => {
+    console.log('Koneksi Berhasil');
+});
 
 app.listen(process.env.PORT || 3000, () => {
     console.log('Express server listening on port http://localhost:3000')
