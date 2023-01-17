@@ -14,19 +14,19 @@ const app = new express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// const httpServer = http.createServer(app);
-// const io = new Server(httpServer, {
-//     allowEIO3: true,
-//     cors: {
-//         origin: true,
-//         credentials: true
-//     }
-// });
+const httpServer = http.createServer(app);
+const io = new Server(httpServer, {
+    allowEIO3: true,
+    cors: {
+        origin: true,
+        credentials: true
+    }
+});
 
-// socketIO(io);
+socketIO(io);
 
 // Import Routes
-const roomsRoute = require('./routes/roomsRoute');
+// const roomsRoute = require('./routes/roomsRoute.js');
 // const authRoute = require('./routes/authRoute.js');
 
 // Routes
