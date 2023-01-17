@@ -1,13 +1,13 @@
 const express = require('express');
-const Users = require('../models/Users.js');
-const Rooms = require('../models/Rooms.js');
+// const Users = require('../models/Users.js');
+// const Rooms = require('../models/Rooms.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const {
-  check,
-  validationResult
-} = require('express-validator');
-const authMiddleware = require('../lib/authMiddleware.js');
+// const {
+//   check,
+//   validationResult
+// } = require('express-validator');
+// const authMiddleware = require('../lib/authMiddleware.js');
 const router = express.Router();
 
 // router.post('/register', [
