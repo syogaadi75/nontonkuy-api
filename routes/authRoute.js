@@ -1,8 +1,7 @@
 const express = require('express');
-// const Users = require('../models/Users.js');
-// const Rooms = require('../models/Rooms.js');
-// const bcrypt = require('bcrypt');
-// const jwt = require('jsonwebtoken');
+const Users = require('../models/Users.js');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 // const {
 //   check,
 //   validationResult
