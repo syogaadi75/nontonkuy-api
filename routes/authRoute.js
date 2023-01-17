@@ -1,5 +1,5 @@
 const express = require('express');
-const argon2 = require('argon2');
+const bcrypt = require('bcryptjs');
 const Users = require('../models/Users.js');
 const jwt = require('jsonwebtoken');
 const {
@@ -8,6 +8,12 @@ const {
 } = require('express-validator');
 const authMiddleware = require('../lib/authMiddleware.js');
 const authRoute = express.Router();
+
+// Crypto
+const salt = crypto.randomBytes(16).toString('hex');
+const iterations = 100000;
+const keylen = 64;
+const digest = 'sha512';
 
 authRoute.post('/register', [
   check('email').isEmail().withMessage('Email tidak valid').custom((value) => {
@@ -30,7 +36,7 @@ authRoute.post('/register', [
     });
   }
 
-  const hash = await argon2.hash(req.body.password);
+  var hash = bcrypt.hashSync(req.body.password, 10);
 
   const newUser = await new Users({
     name: req.body.name,
@@ -75,7 +81,7 @@ authRoute.post('/login', [
     if (!user) {
       res.status(404).send('Pengguna tidak ditemukan');
     } else {
-      if (await argon2.verify(user.password, req.body.password)) {
+      if (bcrypt.compareSync(req.body.password, user.password)) {
         // Buat token JWT
         const token = await jwt.sign({
           id: user._id,
