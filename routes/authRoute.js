@@ -9,12 +9,6 @@ const {
 const authMiddleware = require('../lib/authMiddleware.js');
 const authRoute = express.Router();
 
-// Crypto
-const salt = crypto.randomBytes(16).toString('hex');
-const iterations = 100000;
-const keylen = 64;
-const digest = 'sha512';
-
 authRoute.post('/register', [
   check('email').isEmail().withMessage('Email tidak valid').custom((value) => {
     return Users.findOne({
