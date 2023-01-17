@@ -1,6 +1,6 @@
 const express = require('express');
 const Users = require('../models/Users.js');
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const {
   check,
@@ -33,7 +33,7 @@ authRoute.post('/register', [
   const newUser = new Users({
     name: req.body.name,
     email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 10)
+    password: req.body.password
   });
 
   newUser.save((err) => {
@@ -74,30 +74,30 @@ authRoute.post('/login', [
     } else if (!user) {
       res.status(404).send('Pengguna tidak ditemukan');
     } else {
-      if (bcrypt.compareSync(req.body.password, user.password)) {
-        // Buat token JWT
-        const token = jwt.sign({
-          id: user._id,
-          name: user.name
-        }, process.env.SECRET_KEY, {
-          expiresIn: '1d'
-        });
-        res.send({
-          auth: true,
-          token: token
-        });
-      } else {
-        res.status(401).send('Email atau password salah');
-      }
+      // if (bcrypt.compareSync(req.body.password, user.password)) {
+      // Buat token JWT
+      const token = jwt.sign({
+        id: user._id,
+        name: user.name
+      }, process.env.SECRET_KEY, {
+        expiresIn: '1d'
+      });
+      res.send({
+        auth: true,
+        token: token
+      });
+      // } else {
+      //   res.status(401).send('Email atau password salah');
+      // }
     }
   });
 });
 
-// authRoute.get('/checkAuth', authMiddleware, (req, res) => {
-//   res.send({
-//     auth: true,
-//     user: req.user
-//   })
-// })
+authRoute.get('/checkAuth', authMiddleware, (req, res) => {
+  res.send({
+    auth: true,
+    user: req.user
+  })
+})
 
 module.exports = authRoute;
